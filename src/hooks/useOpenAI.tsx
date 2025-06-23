@@ -16,7 +16,7 @@ interface UseOpenAIReturn {
   clearMessages: () => void;
 }
 
-const OPENAI_API_KEY = 'sk_I0YJhhy2MbfxYPwSSlGtWGdyb3FYQb8EXg3JkjWnnCmgNLMoCZ31';
+const GROQ_API_KEY = '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';
 
 export const useOpenAI = (): UseOpenAIReturn => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -38,14 +38,14 @@ export const useOpenAI = (): UseOpenAIReturn => {
     setError(null);
 
     try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+          'Authorization': `Bearer ${GROQ_API_KEY}`,
         },
         body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
+          model: 'llama3-8b-8192',
           messages: [
             {
               role: 'system',
@@ -67,7 +67,7 @@ export const useOpenAI = (): UseOpenAIReturn => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error?.message || 'Failed to get response from OpenAI');
+        throw new Error(errorData.error?.message || 'Failed to get response from Groq');
       }
 
       const data = await response.json();
@@ -80,7 +80,7 @@ export const useOpenAI = (): UseOpenAIReturn => {
 
       setMessages(prev => [...prev, assistantMessage]);
     } catch (err) {
-      console.error('OpenAI API Error:', err);
+      console.error('Groq API Error:', err);
       setError(err instanceof Error ? err.message : 'An error occurred while sending the message');
       
       // Add error message to chat

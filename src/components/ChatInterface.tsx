@@ -28,7 +28,7 @@ const ChatInterface = () => {
           </div>
           <div>
             <h1 className="text-xl font-semibold text-gray-800">ChatBot</h1>
-            <p className="text-sm text-gray-500">Powered by OpenAI</p>
+            <p className="text-sm text-gray-500">Powered by Groq</p>
           </div>
         </div>
       </div>

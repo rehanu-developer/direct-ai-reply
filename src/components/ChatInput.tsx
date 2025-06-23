@@ -2,6 +2,7 @@
 import React, { useState, KeyboardEvent } from 'react';
 import { Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
@@ -10,6 +11,7 @@ interface ChatInputProps {
 
 const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
   const [message, setMessage] = useState('');
+  const { isDark } = useTheme();
 
   const handleSend = () => {
     if (message.trim() && !disabled) {
@@ -26,7 +28,9 @@ const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
   };
 
   return (
-    <div className="border-t bg-white p-4">
+    <div className={`border-t p-4 ${
+      isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+    }`}>
       <div className="max-w-4xl mx-auto">
         <div className="flex items-end gap-3">
           <div className="flex-1 relative">
@@ -36,7 +40,11 @@ const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
               onKeyDown={handleKeyPress}
               placeholder="Message ChatBot..."
               disabled={disabled}
-              className="w-full p-3 pr-12 border border-gray-200 rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] max-h-[200px]"
+              className={`w-full p-3 pr-12 border rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] max-h-[200px] ${
+                isDark 
+                  ? 'bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400' 
+                  : 'bg-white border-gray-200 text-gray-900 placeholder-gray-500'
+              }`}
               rows={1}
               style={{
                 height: 'auto',
